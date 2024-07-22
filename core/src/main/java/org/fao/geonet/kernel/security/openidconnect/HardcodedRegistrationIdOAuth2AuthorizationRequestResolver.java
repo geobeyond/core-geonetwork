@@ -27,6 +27,7 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestCustomizers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -59,6 +60,7 @@ public class HardcodedRegistrationIdOAuth2AuthorizationRequestResolver implement
         this.authorizationRequestBaseUri = authorizationRequestBaseUri;
         this.authorizationRequestMatcher = new AntPathRequestMatcher(authorizationRequestBaseUri);
         wrappedResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, authorizationRequestBaseUri);
+        wrappedResolver.setAuthorizationRequestCustomizer(OAuth2AuthorizationRequestCustomizers.withPkce());
     }
 
     //defaults the "action" to "login" and uses the GN default oidc provider name
