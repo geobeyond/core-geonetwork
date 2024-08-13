@@ -5,7 +5,7 @@
   <parent>
     <artifactId>gn-schemas</artifactId>
     <groupId>org.geonetwork-opensource.schemas</groupId>
-    <version>4.4.5-SNAPSHOT</version>
+    <version>4.4.5-0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -13,7 +13,7 @@
   <name>GeoNetwork schema plugin for ISO19139.rndt standard</name>
 
   <properties>
-    <gn.version>4.4.5-SNAPSHOT</gn.version>
+    <gn.version>${project.version}</gn.version>
   </properties>
 
   <dependencies>
