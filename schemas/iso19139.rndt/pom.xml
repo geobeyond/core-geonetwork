@@ -9,8 +9,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>schema-iso19139.rndt</artifactId>
-  <name>GeoNetwork schema plugin for ISO19139.rndt standard</name>
+  <artifactId>gn-schema-iso19139.rndt</artifactId>
+  <name>GeoNetwork schema plugin for ISO19139 RDNT Italian standard</name>
 
   <properties>
     <gn.version>${project.version}</gn.version>
