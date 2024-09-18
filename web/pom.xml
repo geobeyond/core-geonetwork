@@ -625,7 +625,7 @@
     </dependency>
     <dependency>
       <groupId>org.geonetwork-opensource.schemas</groupId>
-      <artifactId>schema-iso19139.rndt</artifactId>
+      <artifactId>gn-schema-iso19139.rndt</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -1143,7 +1143,7 @@
                     </artifactItem>
                     <artifactItem>
                       <groupId>org.geonetwork-opensource.schemas</groupId>
-                      <artifactId>schema-iso19139.rndt</artifactId>
+                      <artifactId>gn-schema-iso19139.rndt</artifactId>
                       <type>zip</type>
                       <overWrite>false</overWrite>
                       <outputDirectory>${schema-plugins.dir}</outputDirectory>
