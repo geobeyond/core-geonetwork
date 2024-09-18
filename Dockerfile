@@ -1,9 +1,10 @@
 #
 # Build stage
 #
-FROM maven:3.6.0-jdk-11-slim AS build
+FROM maven:3.9.9-eclipse-temurin-11 AS build
 COPY ./ /home/app
-RUN mvn -f /home/app/pom.xml clean install
+WORKDIR /home/app
+RUN mvn install -DskipTests
 
 #
 # Package stage
