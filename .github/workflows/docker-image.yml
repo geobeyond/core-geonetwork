@@ -38,7 +38,7 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots clean build -DskipTests
+        run: mvn --batch-mode --update-snapshots clean install -DskipTests
 
       - name: Checkout repository
         uses: actions/checkout@v3
