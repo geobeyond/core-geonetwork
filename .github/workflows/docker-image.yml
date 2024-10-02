@@ -40,11 +40,6 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots clean install -DskipTests
 
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
       - name: Log in to the Container registry
         uses: docker/login-action@v2.1.0
         with:
