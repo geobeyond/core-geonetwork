@@ -148,9 +148,13 @@ public class GeonetworkClientRegistrationProvider {
     //taken from spring's ClientRegistrations#getClientAuthenticationMethod which is private
     private static ClientAuthenticationMethod getClientAuthenticationMethod(String issuer,
                                                                             List<com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod> metadataAuthMethods) {
-        if (metadataAuthMethods == null || metadataAuthMethods.contains(com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod.CLIENT_SECRET_BASIC)) {
+        if (metadataAuthMethods == null) {
             // If null, the default includes client_secret_basic
             return ClientAuthenticationMethod.BASIC;
+        }
+        if (metadataAuthMethods.contains(com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod.CLIENT_SECRET_BASIC)) {
+            // Forced here for PKCE
+            return ClientAuthenticationMethod.NONE;
         }
         if (metadataAuthMethods.contains(com.nimbusds.oauth2.sdk.auth.ClientAuthenticationMethod.CLIENT_SECRET_POST)) {
             return ClientAuthenticationMethod.POST;
@@ -247,6 +251,7 @@ public class GeonetworkClientRegistrationProvider {
 
         ClientRegistration.Builder builder = ClientRegistration.withRegistrationId(CLIENTREGISTRATION_NAME)
             .userNameAttributeName(IdTokenClaimNames.SUB)
+            .clientId(clientId)
             .scope(scopes)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .clientAuthenticationMethod(method)
@@ -261,9 +266,6 @@ public class GeonetworkClientRegistrationProvider {
             builder.userInfoUri(oidcMetadata.getUserInfoEndpointURI().toASCIIString());
         }
 
-        builder.clientId(clientId)
-            .clientSecret(clientSecret)
-            .clientName("geonetwork via spring security");
 
         ClientRegistration clientRegistration = builder.build();
         return clientRegistration;
