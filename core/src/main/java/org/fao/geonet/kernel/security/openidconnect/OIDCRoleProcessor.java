@@ -338,6 +338,15 @@ public class OIDCRoleProcessor {
                 }
                 Log.debug(Geonet.SECURITY, "oidc: pathToRoles - found a list instead of item at " + path);
                 return new ArrayList<>(); // not expecting to see this
+            } 
+            if (o instanceof String) {
+                if (t == paths.length - 1) {
+                    List<String> profiles = new ArrayList<String>();
+                    profiles.add((String) o);
+                    return new ArrayList<>((List<String>) profiles);
+                }
+                Log.debug(Geonet.SECURITY, "oidc: pathToRoles - found an item at " + path);
+                return new ArrayList<>(); // not expecting to see this
             }
         }
         Log.debug(Geonet.SECURITY, "oidc: pathToRoles - couldn't find role list - " + pathToRoles);
