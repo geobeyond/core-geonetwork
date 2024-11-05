@@ -25,6 +25,9 @@
 <gmd:CI_ResponsibleParty xmlns:gmd="http://www.isotc211.org/2005/gmd"
                          xmlns:gco="http://www.isotc211.org/2005/gco"
 >
+  <gmd:individualName>
+    <gco:CharacterString>Nome del responsabile</gco:CharacterString>
+  </gmd:individualName>
   <gmd:organisationName>
     <gco:CharacterString>Nome dell'organizzazione responsabile</gco:CharacterString>
   </gmd:organisationName>
@@ -57,7 +60,8 @@
     </gmd:CI_Contact>
   </gmd:contactInfo>
   <gmd:role>
-    <gmd:CI_RoleCode codeList="./resources/codeList.xml#CI_RoleCode" codeListValue="pointOfContact"
-    />
+    <gmd:CI_RoleCode
+  codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_RoleCode"
+  codeListValue="pointOfContact"/>
   </gmd:role>
 </gmd:CI_ResponsibleParty>

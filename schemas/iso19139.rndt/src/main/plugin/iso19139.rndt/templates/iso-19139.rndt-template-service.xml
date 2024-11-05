@@ -30,6 +30,10 @@
   </gmd:hierarchyLevelName>
   <gmd:contact>
     <gmd:CI_ResponsibleParty>
+      <!-- Added individualName to match the 'individual' field in the mapping -->
+      <gmd:individualName>
+        <gco:CharacterString>Nome del responsabile</gco:CharacterString>
+      </gmd:individualName>
       <gmd:organisationName>
         <gco:CharacterString>Soggetto responsabile dei metadati</gco:CharacterString>
       </gmd:organisationName>
@@ -59,7 +63,10 @@
         </gmd:CI_Contact>
       </gmd:contactInfo>
       <gmd:role>
-        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml# CI_RoleCode" codeListValue="pointOfContact">Punto di contatto</gmd:CI_RoleCode>
+        <!-- Fixed the codeList URL by removing the space -->
+        <gmd:CI_RoleCode
+          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+          codeListValue="pointOfContact">Punto di contatto</gmd:CI_RoleCode>
       </gmd:role>
     </gmd:CI_ResponsibleParty>
   </gmd:contact>
@@ -130,7 +137,7 @@
               </gmd:contactInfo>
               <!-- Il ruolo deve corrispondere a uno dei valori della lista “CI_RoleCode” (§3.4.3.3 - all. 2 DM), tranne “punto di contatto”(pointOfContact) e “distributore”(distributor). -->
               <gmd:role>
-                <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml# CI_RoleCode" codeListValue="owner">Proprietario</gmd:CI_RoleCode>
+                <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode" codeListValue="owner">Proprietario</gmd:CI_RoleCode>
               </gmd:role>
             </gmd:CI_ResponsibleParty>
           </gmd:citedResponsibleParty>
@@ -170,7 +177,7 @@
             </gmd:CI_Contact>
           </gmd:contactInfo>
           <gmd:role>
-            <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml# CI_RoleCode" codeListValue="pointOfContact">Punto di contatto</gmd:CI_RoleCode>
+            <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact">Punto di contatto</gmd:CI_RoleCode>
           </gmd:role>
         </gmd:CI_ResponsibleParty>
       </gmd:pointOfContact>

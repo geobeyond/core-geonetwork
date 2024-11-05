@@ -27,6 +27,10 @@
   </gmd:hierarchyLevel>
   <gmd:contact>
     <gmd:CI_ResponsibleParty>
+      <!-- Added individualName to match the 'individual' field in the mapping -->
+      <gmd:individualName>
+        <gco:CharacterString>Nome del responsabile</gco:CharacterString>
+      </gmd:individualName>
       <gmd:organisationName>
         <gco:CharacterString>Soggetto responsabile dei metadati</gco:CharacterString>
       </gmd:organisationName>
@@ -56,7 +60,10 @@
         </gmd:CI_Contact>
       </gmd:contactInfo>
       <gmd:role>
-        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_RoleCode" codeListValue="pointOfContact">punto di contatto</gmd:CI_RoleCode>
+        <!-- Fixed the codeList URL by removing the space -->
+        <gmd:CI_RoleCode
+          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+          codeListValue="pointOfContact">Punto di contatto</gmd:CI_RoleCode>
       </gmd:role>
     </gmd:CI_ResponsibleParty>
   </gmd:contact>
