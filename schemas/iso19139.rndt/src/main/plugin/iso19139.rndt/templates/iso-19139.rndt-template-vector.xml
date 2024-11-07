@@ -407,9 +407,7 @@
                 </gml:BaseUnit>
               </gmd:valueUnit>
               <gmd:value>
-                <gco:Record>
-                  <gco:Real>5.0</gco:Real>
-                </gco:Record>
+                <gco:Record xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:double" />
               </gmd:value>
             </gmd:DQ_QuantitativeResult>
           </gmd:result>
