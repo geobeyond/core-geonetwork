@@ -50,7 +50,7 @@
   <xsl:variable name="iPA">
     <xsl:variable name="iPAPrefixed">
     <xsl:call-template name="substring-before-last">
-      <xsl:with-param name="string1" select="/root/env/group/description"/>
+      <xsl:with-param name="string1" select="/root/env/system/site/organization"/>
       <xsl:with-param name="string2" select="':'"/>
     </xsl:call-template>
     </xsl:variable>
@@ -99,9 +99,32 @@
             </xsl:if>
           <xsl:if test="not($iPAExists)">
             <xsl:message>INFO: iPA not found in /root/env/group/description. Value is <xsl:value-of select="/root/env/group/description"/></xsl:message>
+            <xsl:message>INFO: iPA not found in /root/env/system/site/organization. Value is <xsl:value-of select="/root/env/system/site/organization"/></xsl:message>
           </xsl:if>
           <xsl:message>INFO: /root/env/uuid is <xsl:value-of select="/root/env/uuid"/></xsl:message>
             <xsl:message>INFO: /root/env/parentUuid is <xsl:value-of select="/root/env/parentUuid"/></xsl:message>
+            <xsl:message>INFO: env is <xsl:value-of select="/root/env"/></xsl:message>
+            <xsl:message>INFO: env variables:
+                <xsl:for-each select="/root/env/*">
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="concat(name(), ' = ', .)"/>
+                </xsl:for-each>
+                INFO: metadata env variables:
+                <xsl:for-each select="/root/env/metadata/*">
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="concat(name(), ' = ', .)"/>
+                </xsl:for-each>
+                INFO: system env variables:
+                <xsl:for-each select="/root/env/system/*">
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="concat(name(), ' = ', .)"/>
+                </xsl:for-each>
+                INFO: site env variables:
+                <xsl:for-each select="/root/env/system/site/*">
+                    <xsl:text>&#10;</xsl:text>
+                    <xsl:value-of select="concat(name(), ' = ', .)"/>
+                </xsl:for-each>
+            </xsl:message>
             <xsl:message>INFO: old fileId is <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/></xsl:message>
             <xsl:message>INFO: old parentiId is <xsl:value-of select="//gmd:parentIdentifier/gco:CharacterString"/></xsl:message>
             <xsl:message>INFO: iPA is defined: <xsl:value-of select="$ipaDefined"/></xsl:message>
