@@ -4,25 +4,25 @@
   <name>iso19139.rndt</name>
   <id>cce12b40-3bf2-11e3-aa6e-0800200c9a66</id>
   <version>2.0</version>
-  <appMinorVersionSupported>3.10.0</appMinorVersionSupported>
+  <appMinorVersionSupported>4.4.0</appMinorVersionSupported>
 
   <title xml:lang="en">RNDT v2.0 (Based on iso19139:2007)</title>
   <title xml:lang="it">RNDT v2.0 (Basato su iso19139:2007)</title>
 
-  <description xml:lang="en">
-    Formato di metadati conforme alle specifiche pubblicate dal
-    Repertorio Nazionale dei Dati Territoriali (RNDT),
-    implementando le regole espresse nella
+   <description xml:lang="en"><![CDATA[
+    Metadata format compliant with the specifications published by the
+    National Repertory of Territorial Data (RNDT),
+    implementing the rules expressed in the
     "Guida operativa per la compilazione dei metadati RNDT"
-    v.3.0 del 12/05/2020.
+    v.3.0 12/05/2020.]]>
   </description>
 
-  <description xml:lang="it">
+   <description xml:lang="it"><![CDATA[
     Formato di metadati conforme alle specifiche pubblicate dal
     Repertorio Nazionale dei Dati Territoriali (RNDT),
     implementando le regole espresse nella
     "Guida operativa per la compilazione dei metadati RNDT"
-    v.3.0 del 12/05/2020.
+    v.3.0 del 12/05/2020.]]>
   </description>
 
   <depends>iso19139</depends>
