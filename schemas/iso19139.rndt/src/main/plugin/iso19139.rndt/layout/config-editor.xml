@@ -412,8 +412,9 @@
         <directive data-gn-validation-report=""/>
         <directive data-gn-onlinesrc-list=""
                    data-types="thumbnail|parent|dataset|service|fcats"/>
+        <directive data-gn-associated-resources-panel="gnCurrentEdit.metadata"/>
         <directive data-gn-suggestion-list=""/>
-        <directive data-gn-need-help="user-guide/describing-information/creating-metadata.html"/>
+        <directive data-gn-need-help="creating-metadata"/>
       </sidePanel>
 
         <thesaurusList>

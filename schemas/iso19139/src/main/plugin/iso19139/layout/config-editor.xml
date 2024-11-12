@@ -3336,6 +3336,7 @@
       -->
       <thesaurusList defaultTransformation="to-iso19139-keyword-with-anchor"/>
     </view>
+
     <view name="advanced"
           class="gn-label-above-input gn-indent-bluescale">
       <sidePanel>
