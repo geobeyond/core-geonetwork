@@ -935,119 +935,254 @@
               </template>
             </action>
 
-            <section name="accessConstraints">
+          <section name="accessConstraints">
 
-              <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[
-                gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions'
-                and  contains(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]"
-                del="."
-              />
+            <!-- fixed values, user should only be able to remove the whole gmd:resourceConstraints element, and not edit it -->
+            <field
+              xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints[gmd:MD_LegalConstraints[gmd:accessConstraints]/gmd:otherConstraints/gmx:Anchor]"/>
+
+            <!-- editable value, user should be able to edit the characterstring element, or to remove the whole gmd:resourceConstraints element -->
+            <field
+              xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints[gmd:MD_LegalConstraints[gmd:accessConstraints]/gmd:otherConstraints[gco:CharacterString]]"
+              templateModeOnly="true"
+              notDisplayedIfMissing="true"
+              forceLabel="true"
+              name="sds-limitation"
+              del=".">
+
+              <template>
+                <values>
+                  <key label="string"
+                       xpath="gmd:MD_LegalConstraints/gmd:otherConstraints/gco:CharacterString"/>
+                </values>
+                <snippet>
+                  <gmd:resourceConstraints>
+                    <gmd:MD_LegalConstraints>
+                      <gmd:accessConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:accessConstraints>
+                      <gmd:otherConstraints>
+                        <gco:CharacterString>{{string}}</gco:CharacterString>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                </snippet>
+              </template>
+            </field>
+
+            <!-- accessConstraints: ADD "no constraints" if element not defined -->
+            <action type="add"
+                    name="sds-addNoConstraints"
+                    forceLabel="true"
+                    or="resourceConstraints"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
+                    check="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:accessConstraints])"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:accessConstraints]) = 0">
+
+              <template>
+                <snippet>
+                  <gmd:resourceConstraints>
+                    <gmd:MD_LegalConstraints>
+                      <gmd:accessConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:accessConstraints>
+                      <gmd:otherConstraints>
+                        <gmx:Anchor
+                          xlink:href="http://inspire.ec.europa.eu/registry/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply">
+                          No Conditions Apply
+                        </gmx:Anchor>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                </snippet>
+              </template>
+            </action>
+
+            <!-- accessConstraints: ADD "unknown constraints" if element not defined -->
+            <action type="add"
+                    name="sds-addUnknownConstraints"
+                    forceLabel="true"
+                    or="resourceConstraints"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:accessConstraints]) = 0">
+              <template>
+                <snippet>
+                  <gmd:resourceConstraints>
+                    <gmd:MD_LegalConstraints>
+                      <gmd:accessConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:accessConstraints>
+                      <gmd:otherConstraints>
+                        <gmx:Anchor
+                          xlink:href="http://inspire.ec.europa.eu/registry/metadata-codelist/ConditionsApplyingToAccessAndUse/conditionsUnknown">
+                          Conditions Unknown
+                        </gmx:Anchor>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                </snippet>
+              </template>
+            </action>
 
 
-              <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
-                     [boolean(gmd:MD_LegalConstraints/gmd:accessConstraints) and not(gmd:MD_LegalConstraints/gmd:otherConstraints)]"
-                del="."
-              />
+            <!-- accessConstraints: ADD custom constraints if element not defined -->
 
-              <!--field
-                     xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[../gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and boolean(.[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])]"
-              /-->
+            <action type="add"
+                    forceLabel="true"
+                    name="sds-addConstraints"
+                    or="resourceConstraints"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:accessConstraints]) = 0">
+              <template>
+                <snippet>
+                  <gmd:resourceConstraints>
+                    <gmd:MD_LegalConstraints>
+                      <gmd:accessConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:accessConstraints>
+                      <gmd:otherConstraints gco:nilReason="missing">
+                        <gco:CharacterString/>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                </snippet>
+              </template>
+            </action>
 
-              <action type="add" or="resourceConstraints"
-                      btnLabel="accessConstraints"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
-              >
-                <template>
-                  <snippet>
-                    <gmd:resourceConstraints>
-                      <gmd:MD_LegalConstraints>
-                        <gmd:accessConstraints>
-                          <gmd:MD_RestrictionCode
-                            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
-                            codeListValue="otherRestrictions">altri vincoli</gmd:MD_RestrictionCode>
-                        </gmd:accessConstraints>
-                        <gmd:otherConstraints>
-                          <gmx:Anchor
-                            xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess"></gmx:Anchor>
-                        </gmd:otherConstraints>
-                      </gmd:MD_LegalConstraints>
-                    </gmd:resourceConstraints>
-                  </snippet>
-                </template>
-              </action>
-            </section>
+          </section> <!-- access constraints -->
 
             <section name="useConstraints">
 
-              <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[
-                gmd:MD_LegalConstraints/*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions']
-                [not(contains(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))
-                and boolean(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor)]"
-                del="."/>
+            <!-- fixed values, user should only be able to remove the whole gmd:resourceConstraints element, and not edit it -->
+            <field
+              xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints[gmd:MD_LegalConstraints[gmd:useConstraints]/gmd:otherConstraints/gmx:Anchor]"/>
 
-              <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[
-                ../*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions']
-                [boolean(gco:CharacterString)]"
-                del="../.."/>
+            <!-- editable value, user should be able to edit the characterstring element, or to remove the whole gmd:resourceConstraints element -->
+            <field
+              xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints[gmd:MD_LegalConstraints[gmd:useConstraints]/gmd:otherConstraints[gco:CharacterString]]"
+              templateModeOnly="true"
+              notDisplayedIfMissing="true"
+              forceLabel="true"
+              name="sds-limitation"
+              del=".">
+
+              <template>
+                <values>
+                  <key label="string"
+                       xpath="gmd:MD_LegalConstraints/gmd:otherConstraints/gco:CharacterString"/>
+                </values>
+                <snippet>
+                  <gmd:resourceConstraints>
+                    <gmd:MD_LegalConstraints>
+                      <gmd:useConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:useConstraints>
+                      <gmd:otherConstraints>
+                        <gco:CharacterString>{{string}}</gco:CharacterString>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                </snippet>
+              </template>
+            </field>
+
+            <!-- useConstraints: ADD "no constraints" if element not defined -->
+            <action type="add"
+                    name="sds-addNoConstraints"
+                    forceLabel="true"
+                    or="resourceConstraints"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
+                    check="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:useConstraints])"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:useConstraints]) = 0">
+
+              <template>
+                <snippet>
+                  <gmd:resourceConstraints>
+                    <gmd:MD_LegalConstraints>
+                      <gmd:useConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:useConstraints>
+                      <gmd:otherConstraints>
+                        <gmx:Anchor
+                          xlink:href="http://inspire.ec.europa.eu/registry/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply">
+                          No Conditions Apply
+                        </gmx:Anchor>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                </snippet>
+              </template>
+            </action>
+
+            <!-- useConstraints: ADD "unknown constraints" if element not defined -->
+            <action type="add"
+                    name="sds-addUnknownConstraints"
+                    forceLabel="true"
+                    or="resourceConstraints"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:useConstraints]) = 0">
+              <template>
+                <snippet>
+                  <gmd:resourceConstraints>
+                    <gmd:MD_LegalConstraints>
+                      <gmd:useConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:useConstraints>
+
+                      <gmd:otherConstraints>
+                        <gmx:Anchor
+                          xlink:href="http://inspire.ec.europa.eu/registry/metadata-codelist/ConditionsApplyingToAccessAndUse/conditionsUnknown">
+                          Conditions Unknown
+                        </gmx:Anchor>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                </snippet>
+              </template>
+            </action>
 
 
-              <action type="add"
-                      btnLabel="useConstraints"
-                      or="resourceConstraints"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*">
-                <template>
-                  <snippet label="noConditionApply">
-                    <gmd:resourceConstraints>
-                      <gmd:MD_LegalConstraints>
-                        <gmd:useConstraints>
-                          <gmd:MD_RestrictionCode
-                            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
-                            codeListValue="otherRestrictions"/>
-                        </gmd:useConstraints>
-                        <gmd:otherConstraints>
-                          <gmx:Anchor
-                            xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
-                        </gmd:otherConstraints>
-                      </gmd:MD_LegalConstraints>
-                    </gmd:resourceConstraints>
-                  </snippet>
-                  <snippet label="unknownCondition">
-                    <gmd:resourceConstraints>
-                      <gmd:MD_LegalConstraints>
-                        <gmd:useConstraints>
-                          <gmd:MD_RestrictionCode
-                            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
-                            codeListValue="otherRestrictions"/>
-                        </gmd:useConstraints>
-                        <gmd:otherConstraints>
-                          <gmx:Anchor
-                            xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/conditionsUnknown">Condizioni sconosciute</gmx:Anchor>
-                        </gmd:otherConstraints>
-                      </gmd:MD_LegalConstraints>
-                    </gmd:resourceConstraints>
-                  </snippet>
-                  <snippet label="freeText">
-                    <gmd:resourceConstraints>
-                      <gmd:MD_LegalConstraints>
-                        <gmd:useConstraints>
-                          <gmd:MD_RestrictionCode
-                            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
-                            codeListValue="otherRestrictions"/>
-                        </gmd:useConstraints>
-                        <gmd:otherConstraints>
-                          <gco:CharacterString></gco:CharacterString>
-                        </gmd:otherConstraints>
-                      </gmd:MD_LegalConstraints>
-                    </gmd:resourceConstraints>
-                  </snippet>
-                </template>
-              </action>
-            </section>
-          </section>
+            <!-- useConstraints: ADD custom constraints if element not defined -->
+
+            <action type="add"
+                    forceLabel="true"
+                    name="sds-addConstraints"
+                    or="resourceConstraints"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:useConstraints]) = 0">
+              <template>
+                <snippet>
+                  <gmd:resourceConstraints>
+                    <gmd:MD_LegalConstraints>
+                      <gmd:useConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:useConstraints>
+                      <gmd:otherConstraints gco:nilReason="missing">
+                        <gco:CharacterString/>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
+                  </gmd:resourceConstraints>
+                </snippet>
+              </template>
+            </action>
+
+          </section> <!-- use constraints -->
 
           <section name="extent">
 

@@ -160,7 +160,7 @@
             </gmd:CI_Series>
           </gmd:series>
           <gmd:otherCitationDetails>
-            <gco:CharacterString>http://www.territorio.provincia.tn.it</gco:CharacterString>
+            <gco:CharacterString>https://geoportale.comune.roma.it</gco:CharacterString>
           </gmd:otherCitationDetails>
         </gmd:CI_Citation>
       </gmd:citation>
@@ -238,15 +238,17 @@
       <gmd:resourceConstraints xmlns:srv="http://www.isotc211.org/2005/srv"
                                xmlns:gmx="http://www.isotc211.org/2005/gmx"
                                xmlns:gml="http://www.opengis.net/gml/3.2">
-        <gmd:MD_LegalConstraints>
+          <gmd:MD_LegalConstraints>
           <gmd:accessConstraints>
-            <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
-                                    codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+          <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xm#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
           </gmd:accessConstraints>
+          <gmd:useConstraints>
+          <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/gmxCodelists.xm#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
+          </gmd:useConstraints>
           <gmd:otherConstraints>
-            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess"></gmx:Anchor>
+          <gco:CharacterString>Dato pubblico (cfr. art. 1 Codice Amministrazione Digitale)</gco:CharacterString>
           </gmd:otherConstraints>
-        </gmd:MD_LegalConstraints>
+          </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
       <gmd:resourceConstraints xmlns:srv="http://www.isotc211.org/2005/srv"
                                xmlns:gmx="http://www.isotc211.org/2005/gmx"
@@ -328,7 +330,7 @@
         </gmd:EX_Extent>
       </gmd:extent>
       <gmd:supplementalInformation>
-        <gco:CharacterString>http://www.territorio.provincia.tn.it</gco:CharacterString>
+        <gco:CharacterString>https://geoportale.comune.roma.it</gco:CharacterString>
       </gmd:supplementalInformation>
     </gmd:MD_DataIdentification>
   </gmd:identificationInfo>
