@@ -258,7 +258,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		<sch:rule context="//gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality">
 			<sch:assert test="gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'
 			or count(gmd:report/gmd:DQ_AbsoluteExternalPositionalAccuracy/gmd:result/gmd:DQ_QuantitativeResult[gmd:valueUnit/gml:BaseUnit/gml:identifier/@codeSpace
-			and gmd:valueUnit/gml:BaseUnit/gml:unitsSystem/@xlink:href and  gmd:value/gco:Record/gco:Real])>0">$loc/strings/alert.M35</sch:assert>
+			and gmd:valueUnit/gml:BaseUnit/gml:unitsSystem/@xlink:href and  gmd:value/gco:Record])>0">$loc/strings/alert.M35</sch:assert>
 			<!--			<sch:assert test="gmd:report/gmd:DQ_AbsoluteExternalPositionalAccuracy/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:identifier">$loc/strings/alert.M35</sch:assert>-->
 		</sch:rule>
 	</sch:pattern>
