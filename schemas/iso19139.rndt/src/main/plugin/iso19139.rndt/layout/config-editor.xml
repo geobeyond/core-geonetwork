@@ -773,6 +773,57 @@
             </action>
 
             <section name="freeTextKeywords">
+              <!-- Keywords senza thesauri (escluso opendata)
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                           [not(../gmd:thesaurusName) and not(./gco:CharacterString='open data')
+                           and not(./gco:CharacterString='opendata')]"
+                     name="keyword_libera"
+                     del="."
+                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/
+                       gmd:keyword[not(../gmd:thesaurusName)])>1"
+              />
+
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                           [not(../gmd:thesaurusName) and not(./gco:CharacterString='opendata')
+                           and not(./gco:CharacterString='open data') and not(./gco:CharacterString='opendata')]"
+                     name="keyword_libera"
+                     del="../.."
+                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/
+                       gmd:keyword[not(boolean(../gmd:thesaurusName))])=1"
+              />
+
+              <action type="add"
+                      btnLabel="keyword_libera"
+                      or="descriptiveKeywords"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                      if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(../gmd:thesaurusName)])=0"
+              >
+                <template>
+                  <snippet>
+                    <gmd:descriptiveKeywords>
+                      <gmd:MD_Keywords>
+                        <gmd:keyword>
+                          <gco:CharacterString></gco:CharacterString>
+                        </gmd:keyword>
+                      </gmd:MD_Keywords>
+                    </gmd:descriptiveKeywords>
+                  </snippet>
+                </template>
+              </action>
+
+              <action type="add" btnLabel="keyword_libera" or="keyword"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]"
+                      if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(../gmd:thesaurusName)])>0"
+              >
+                <template>
+                  <snippet>
+                    <gmd:keyword>
+                      <gco:CharacterString></gco:CharacterString>
+                    </gmd:keyword>
+                  </snippet>
+                </template>
+              </action> -->
+
               <!-- Keywords without thesaurus information of type theme -->
               <field
                 xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/
@@ -1021,7 +1072,7 @@
 
           </section> <!-- access constraints -->
 
-            <section name="useConstraints">
+          <section name="useConstraints">
 
             <!-- fixed values, user should only be able to remove the whole gmd:resourceConstraints element, and not edit it -->
             <field
@@ -1291,6 +1342,7 @@
             </section>
           </section>
         </section>
+        </section>
       </tab>
 
 
@@ -1402,69 +1454,7 @@
           <section name="descriptiveKeywords" >
 
              <section name="keyword_inspire_theme">
-                <!-- ISO19139 -->
-                <!-- Keywords: INSPIRE Service taxonomy -->
-                <field
-                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/
-                  gmd:descriptiveKeywords
-                  [gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString = 'INSPIRE Service taxonomy']"></field>
-                <!-- FIXME: MUST be provided in template and thesaurus available in the catalog, to be displayed properly -->
-
-                <action type="add" btnLabel="inspireServiceTaxonomy"
-                        name="inspireServiceTaxonomy"
-                        or="descriptiveKeywords"
-                        in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                        if="(count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/
-                              gmd:descriptiveKeywords[
-                                contains(gmd:MD_Keywords/gmd:thesaurusName/
-                                            gmd:CI_Citation/gmd:title/gco:CharacterString,
-                                        'INSPIRE Service taxonomy')]) + count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification)) = 1">
-                  <template>
-                    <snippet>
-                      <gmd:descriptiveKeywords>
-                        <gmd:MD_Keywords>
-                          <gmd:keyword gco:nilReason="missing">
-                            <gco:CharacterString/>
-                          </gmd:keyword>
-                          <gmd:type>
-                            <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode"
-                                                    codeListValue="theme"/>
-                          </gmd:type>
-                          <gmd:thesaurusName>
-                            <gmd:CI_Citation>
-                              <gmd:title>
-                                <gco:CharacterString>INSPIRE Service taxonomy</gco:CharacterString>
-                              </gmd:title>
-                              <gmd:date>
-                                <gmd:CI_Date>
-                                  <gmd:date>
-                                    <gco:Date>2010-04-22</gco:Date>
-                                  </gmd:date>
-                                  <gmd:dateType>
-                                    <gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
-                                                        codeListValue="publication"/>
-                                  </gmd:dateType>
-                                </gmd:CI_Date>
-                              </gmd:date>
-                              <gmd:identifier>
-                                <gmd:MD_Identifier>
-                                  <gmd:code>
-                                    <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
-                                                xlink:href="http://localhost:8080/geonetwork/srv/api/registries/vocabularies/external.theme.inspire-service-taxonomy">
-                                      geonetwork.thesaurus.external.theme.inspire-service-taxonomy</gmx:Anchor>
-                                  </gmd:code>
-                                </gmd:MD_Identifier>
-                              </gmd:identifier>
-                            </gmd:CI_Citation>
-                          </gmd:thesaurusName>
-                        </gmd:MD_Keywords>
-                      </gmd:descriptiveKeywords>
-                    </snippet>
-                  </template>
-                </action>
-
-
-                <!-- Keywords: INSPIRE Themes -->
+               <!-- Keywords: INSPIRE Themes -->
                 <field
                   xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/
                   gmd:descriptiveKeywords
@@ -1499,7 +1489,7 @@
                               <gmd:date>
                                 <gmd:CI_Date>
                                   <gmd:date>
-                                    <gco:Date>2008-06-01</gco:Date>
+                                    <gco:Date>2018-06-01</gco:Date>
                                   </gmd:date>
                                   <gmd:dateType>
                                     <gmd:CI_DateTypeCode
@@ -1525,271 +1515,189 @@
                     </snippet>
                   </template>
                 </action>
-
-                <!-- Keywords from other thesaurus than INSPIRE Themes -->
-                <field
-                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/
-                  gmd:descriptiveKeywords
-                  [count(gmd:MD_Keywords/gmd:thesaurusName) > 0 and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[name() = 'gco:CharacterString' or name() = 'gmx:Anchor']/text(), 'INSPIRE themes'))]"/>
-
-                <section name="freeTextKeywords">
-                  <!-- Keywords without thesaurus information of type theme -->
-                  <field
-                    xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/
-                    gmd:descriptiveKeywords[not(gmd:MD_Keywords/gmd:thesaurusName)]"
-                    or="descriptiveKeywords"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"/>
-
-                  <field
-                    xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/
-                    gmd:descriptiveKeywords[not(gmd:MD_Keywords/gmd:thesaurusName)]"
-                    or="descriptiveKeywords"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"/>
-                </section>
-                <!-- FINE ISO19139 -->
-
-
-
-               <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">GEMET - INSPIRE themes, version 1.0</gmx:Anchor> -->
-
-               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
-                        [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'GEMET - INSPIRE themes, version 1.0') ]"
-                      del="." >
-                   <directiveAttributes  />
-
-
-               </field>
-
-               <action type="add"
-                       btnLabel="keyword_add_inspire_theme"
-                       or="descriptiveKeywords"
-                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
-
-                       if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
-                          gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/*/text() = 'GEMET - INSPIRE themes, version 1.0'])=0">
-
-                 <template>
-                   <snippet>
-
-                     <gmd:descriptiveKeywords>
-                       <gmd:MD_Keywords>
-                         <gmd:keyword gco:nilReason="missing">
-                           <gmx:Anchor xlink:href=""/>
-                         </gmd:keyword>
-                         <gmd:type>
-                           <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
-                                                   codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-                         </gmd:type>
-                         <gmd:thesaurusName>
-                           <gmd:CI_Citation>
-                             <gmd:title>
-                               <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
-                             </gmd:title>
-                             <gmd:date>
-                               <gmd:CI_Date>
-                                 <gmd:date>
-                                   <gco:Date>2008-06-01</gco:Date>
-                                 </gmd:date>
-                                 <gmd:dateType>
-                                   <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                                        codeListValue="publication">publication</gmd:CI_DateTypeCode>
-                                 </gmd:dateType>
-                               </gmd:CI_Date>
-                             </gmd:date>
-                             <gmd:identifier>
-                               <gmd:MD_Identifier>
-                                 <gmd:code>
-                                   <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/it/thesaurus.download?ref=external.theme.httpinspireeceuropaeutheme-theme">geonetwork.thesaurus.external.theme.httpinspireeceuropaeutheme-theme</gmx:Anchor>
-                                 </gmd:code>
-                               </gmd:MD_Identifier>
-                             </gmd:identifier>
-                           </gmd:CI_Citation>
-                         </gmd:thesaurusName>
-                       </gmd:MD_Keywords>
-                     </gmd:descriptiveKeywords>
-
-                   </snippet>
-                 </template>
-               </action>
              </section>
 
 
              <section name="keyword_dataset_prioritari">
-               <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">INSPIRE priority data set</gmx:Anchor> -->
-               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
-                        [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'INSPIRE priority data set') ]"
-                      del="."/>
-
-               <action type="add"
-                       btnLabel="keyword_add_dataset_prioritari"
-                       or="descriptiveKeywords"
-                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
-                       if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
-                          gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/*/text() = 'INSPIRE priority data set'])=0">
-
+                <field
+                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/
+                  gmd:descriptiveKeywords
+                  [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[name() = 'gco:CharacterString' or name() = 'gmx:Anchor']/text(), 'INSPIRE priority data set')]"/>
+                <!-- FIXME: MUST be provided in template and thesaurus available in the catalog, to be displayed properly -->
+                <action type="add" btnLabel="keyword_add_dataset_prioritari"
+                        name="keyword_add_dataset_prioritari"
+                        or="descriptiveKeywords"
+                        in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                        if="count(gmd:MD_Metadata/gmd:identificationInfo/*/
+                              gmd:descriptiveKeywords[
+                                contains(gmd:MD_Keywords/gmd:thesaurusName/
+                                            gmd:CI_Citation/gmd:title/*[name() = 'gco:CharacterString' or name() = 'gmx:Anchor']/text(),
+                                        'INSPIRE priority data set')]) = 0">
                   <template>
                     <snippet>
                       <gmd:descriptiveKeywords>
-                         <gmd:MD_Keywords>
-                            <gmd:keyword gco:nilReason="missing">
-                              <gmx:Anchor xlink:href=""/>
-                            </gmd:keyword>
-                            <gmd:type>
-                               <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
-                                                       codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-                            </gmd:type>
-                            <gmd:thesaurusName>
-                               <gmd:CI_Citation>
-                                  <gmd:title>
-                                     <gco:CharacterString>INSPIRE priority data set</gco:CharacterString>
-                                  </gmd:title>
+                        <gmd:MD_Keywords>
+                          <gmd:keyword>
+                            <gmx:Anchor xlink:href=""></gmx:Anchor>
+                          </gmd:keyword>
+                          <gmd:type>
+                            <gmd:MD_KeywordTypeCode
+                              codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_KeywordTypeCode"
+                              codeListValue="theme"/>
+                          </gmd:type>
+                          <gmd:thesaurusName>
+                            <gmd:CI_Citation>
+                              <gmd:title>
+                                <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">INSPIRE priority data set</gmx:Anchor>
+                              </gmd:title>
+                              <gmd:date>
+                                <gmd:CI_Date>
                                   <gmd:date>
-                                     <gmd:CI_Date>
-                                        <gmd:date>
-                                           <gco:Date>2018-04-04</gco:Date>
-                                        </gmd:date>
-                                        <gmd:dateType>
-                                           <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                                                codeListValue="publication">publication</gmd:CI_DateTypeCode>
-                                        </gmd:dateType>
-                                     </gmd:CI_Date>
+                                    <gco:Date>2018-06-01</gco:Date>
                                   </gmd:date>
-                                  <gmd:identifier>
-                                     <gmd:MD_Identifier>
-                                        <gmd:code>
-                                           <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/ita/thesaurus.download?ref=external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset">geonetwork.thesaurus.external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset</gmx:Anchor>
-                                        </gmd:code>
-                                     </gmd:MD_Identifier>
-                                  </gmd:identifier>
-                               </gmd:CI_Citation>
-                            </gmd:thesaurusName>
-                         </gmd:MD_Keywords>
+                                  <gmd:dateType>
+                                    <gmd:CI_DateTypeCode
+                                      codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                                      codeListValue="publication"/>
+                                  </gmd:dateType>
+                                </gmd:CI_Date>
+                              </gmd:date>
+                              <gmd:identifier>
+                                <gmd:MD_Identifier>
+                                  <gmd:code>
+                                    <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/ita/thesaurus.download?ref=external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset">geonetwork.thesaurus.external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset</gmx:Anchor>
+                                  </gmd:code>
+                                </gmd:MD_Identifier>
+                              </gmd:identifier>
+                            </gmd:CI_Citation>
+                          </gmd:thesaurusName>
+                        </gmd:MD_Keywords>
                       </gmd:descriptiveKeywords>
                     </snippet>
                   </template>
-               </action>
-
+                </action>
              </section>
 
              <section name="keyword_ambito_territoriale">
-               <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/SpatialScope">Spatial scope</gmx:Anchor> -->
-
-               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
-                        [boolean(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*
-                        [contains(text(),'Spatial scope') or contains(text(),'Ambito di applicazione territoriale')])]"
-                      del="."/>
-
-               <action type="add"
-                    btnLabel="keyword_add_ambito_territoriale"
-                      or="descriptiveKeywords"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
-
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
-                        [boolean(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*
-                        [contains(text(),'Spatial scope') or contains(text(),'Ambito di applicazione territoriale')])])=0">
-
+                <field
+                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/
+                  gmd:descriptiveKeywords
+                  [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[name() = 'gco:CharacterString' or name() = 'gmx:Anchor']/text(), 'Spatial scope')]"/>
+                <!-- FIXME: MUST be provided in template and thesaurus available in the catalog, to be displayed properly -->
+                <action type="add" btnLabel="keyword_add_ambito_territoriale"
+                        name="keyword_add_ambito_territoriale"
+                        or="descriptiveKeywords"
+                        in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                        if="count(gmd:MD_Metadata/gmd:identificationInfo/*/
+                              gmd:descriptiveKeywords[
+                                contains(gmd:MD_Keywords/gmd:thesaurusName/
+                                            gmd:CI_Citation/gmd:title/*[name() = 'gco:CharacterString' or name() = 'gmx:Anchor']/text(),
+                                        'Spatial scope')]) = 0">
                   <template>
                     <snippet>
                       <gmd:descriptiveKeywords>
-                         <gmd:MD_Keywords>
-                            <gmd:keyword gco:nilReason="missing">
-                               <gmx:Anchor xlink:href=""/>
-                            </gmd:keyword>
-                            <gmd:type>
-                               <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
-                                                       codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-                            </gmd:type>
-                            <gmd:thesaurusName>
-                               <gmd:CI_Citation>
-                                  <gmd:title>
-                                     <gco:CharacterString>Spatial scope</gco:CharacterString>
-                                  </gmd:title>
+                        <gmd:MD_Keywords>
+                          <gmd:keyword>
+                            <gmx:Anchor xlink:href=""></gmx:Anchor>
+                          </gmd:keyword>
+                          <gmd:type>
+                            <gmd:MD_KeywordTypeCode
+                              codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_KeywordTypeCode"
+                              codeListValue="theme"/>
+                          </gmd:type>
+                          <gmd:thesaurusName>
+                            <gmd:CI_Citation>
+                              <gmd:title>
+                                <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">Spatial scope</gmx:Anchor>
+                              </gmd:title>
+                              <gmd:date>
+                                <gmd:CI_Date>
                                   <gmd:date>
-                                     <gmd:CI_Date>
-                                        <gmd:date>
-                                           <gco:Date>2019-05-22</gco:Date>
-                                        </gmd:date>
-                                        <gmd:dateType>
-                                           <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                                                codeListValue="publication">publication</gmd:CI_DateTypeCode>
-                                        </gmd:dateType>
-                                     </gmd:CI_Date>
+                                    <gco:Date>2018-06-01</gco:Date>
                                   </gmd:date>
-                                  <gmd:identifier>
-                                     <gmd:MD_Identifier>
-                                        <gmd:code>
-                                           <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/ita/thesaurus.download?ref=external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope">geonetwork.thesaurus.external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope</gmx:Anchor>
-                                        </gmd:code>
-                                     </gmd:MD_Identifier>
-                                  </gmd:identifier>
-                               </gmd:CI_Citation>
-                            </gmd:thesaurusName>
-                         </gmd:MD_Keywords>
+                                  <gmd:dateType>
+                                    <gmd:CI_DateTypeCode
+                                      codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                                      codeListValue="publication"/>
+                                  </gmd:dateType>
+                                </gmd:CI_Date>
+                              </gmd:date>
+                              <gmd:identifier>
+                                <gmd:MD_Identifier>
+                                  <gmd:code>
+                                    <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/ita/thesaurus.download?ref=external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope">geonetwork.thesaurus.external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope</gmx:Anchor>
+                                  </gmd:code>
+                                </gmd:MD_Identifier>
+                              </gmd:identifier>
+                            </gmd:CI_Citation>
+                          </gmd:thesaurusName>
+                        </gmd:MD_Keywords>
                       </gmd:descriptiveKeywords>
                     </snippet>
                   </template>
-               </action>
-
+                </action>
              </section>
 
 
             <section name="keyword_interesse_generale" >
 
-                <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'Registro dei dati di interesse generale per il RNDT')]"
-                       del="."
-                       if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'Registro dei dati di interesse generale per il RNDT')])>0"
-                />
-
-            <action type="add"
-                    btnLabel="keyword_interesse_generale"
-                    or="descriptiveKeywords"
-                    in="gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/
-                       gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/*/text() = 'Registro dei dati di interesse generale per il RNDT'])=0">
-
-              <template>
-                <snippet>
-                  <gmd:descriptiveKeywords>
-                     <gmd:MD_Keywords>
-                        <gmd:keyword gco:nilReason="missing">
-                           <gmx:Anchor xlink:href=""/>
-                        </gmd:keyword>
-                        <gmd:type>
-                           <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
-                                                   codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
-                        </gmd:type>
-                        <gmd:thesaurusName>
-                           <gmd:CI_Citation>
+                <field
+                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/
+                  gmd:descriptiveKeywords
+                  [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[name() = 'gco:CharacterString' or name() = 'gmx:Anchor']/text(), 'Registro dei dati di interesse generale per il RNDT')]"/>
+                <!-- FIXME: MUST be provided in template and thesaurus available in the catalog, to be displayed properly -->
+                <action type="add" btnLabel="keyword_interesse_generale"
+                        name="keyword_interesse_generale"
+                        or="descriptiveKeywords"
+                        in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                        if="count(gmd:MD_Metadata/gmd:identificationInfo/*/
+                              gmd:descriptiveKeywords[
+                                contains(gmd:MD_Keywords/gmd:thesaurusName/
+                                            gmd:CI_Citation/gmd:title/*[name() = 'gco:CharacterString' or name() = 'gmx:Anchor']/text(),
+                                        'Registro dei dati di interesse generale per il RNDT')]) = 0">
+                  <template>
+                    <snippet>
+                      <gmd:descriptiveKeywords>
+                        <gmd:MD_Keywords>
+                          <gmd:keyword>
+                            <gmx:Anchor xlink:href=""></gmx:Anchor>
+                          </gmd:keyword>
+                          <gmd:type>
+                            <gmd:MD_KeywordTypeCode
+                              codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_KeywordTypeCode"
+                              codeListValue="theme"/>
+                          </gmd:type>
+                          <gmd:thesaurusName>
+                            <gmd:CI_Citation>
                               <gmd:title>
-                                 <gco:CharacterString>Registro dei dati di interesse generale per il RNDT</gco:CharacterString>
+                                <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">Registro dei dati di interesse generale per il RNDT</gmx:Anchor>
                               </gmd:title>
                               <gmd:date>
-                                 <gmd:CI_Date>
-                                    <gmd:date>
-                                       <gco:Date>2018-06-25</gco:Date>
-                                    </gmd:date>
-                                    <gmd:dateType>
-                                       <gmd:CI_DateTypeCode
-                                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                          codeListValue="publication">publication</gmd:CI_DateTypeCode>
-                                    </gmd:dateType>
-                                 </gmd:CI_Date>
+                                <gmd:CI_Date>
+                                  <gmd:date>
+                                    <gco:Date>2018-06-01</gco:Date>
+                                  </gmd:date>
+                                  <gmd:dateType>
+                                    <gmd:CI_DateTypeCode
+                                      codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                                      codeListValue="publication"/>
+                                  </gmd:dateType>
+                                </gmd:CI_Date>
                               </gmd:date>
                               <gmd:identifier>
-                                 <gmd:MD_Identifier>
-                                    <gmd:code>
-                                       <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.rndt-all1">geonetwork.thesaurus.external.theme.rndt-all1</gmx:Anchor>
-                                    </gmd:code>
-                                 </gmd:MD_Identifier>
+                                <gmd:MD_Identifier>
+                                  <gmd:code>
+                                    <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.rndt-all1">geonetwork.thesaurus.external.theme.rndt-all1</gmx:Anchor>
+                                  </gmd:code>
+                                </gmd:MD_Identifier>
                               </gmd:identifier>
-                           </gmd:CI_Citation>
-                        </gmd:thesaurusName>
-                     </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-              </template>
-            </action>
-
+                            </gmd:CI_Citation>
+                          </gmd:thesaurusName>
+                        </gmd:MD_Keywords>
+                      </gmd:descriptiveKeywords>
+                    </snippet>
+                  </template>
+                </action>
             </section>
 
             <section name="keyword_opendata" >
