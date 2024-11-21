@@ -195,19 +195,6 @@
           </gmd:otherConstraints>
         </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
-      <gmd:resourceConstraints xmlns:srv="http://www.isotc211.org/2005/srv"
-                               xmlns:gmx="http://www.isotc211.org/2005/gmx"
-                               xmlns:gml="http://www.opengis.net/gml/3.2">
-        <gmd:MD_LegalConstraints>
-          <gmd:useConstraints>
-            <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
-                                    codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
-          </gmd:useConstraints>
-          <gmd:otherConstraints>
-            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse"></gmx:Anchor>
-          </gmd:otherConstraints>
-        </gmd:MD_LegalConstraints>
-      </gmd:resourceConstraints>
       <!-- L'elemento deve assumere uno dei valori della lista “ServiceType” di cui al § 3.4.5.1 - all. 2 DM (discovery, view, download, transformation, invoke, other) -->
       <srv:serviceType>
         <gco:LocalName>view</gco:LocalName>

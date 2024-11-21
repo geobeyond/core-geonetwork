@@ -3330,7 +3330,9 @@
           </section>
 
 
-          <field
+                    <!-- Service type -->
+          <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType"/>
+          <!-- BAD <field
             templateModeOnly="true"
             notDisplayedIfMissing="true"
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType"
@@ -3351,7 +3353,7 @@
                 </srv:serviceType>
               </snippet>
             </template>
-          </field>
+          </field> -->
 
           <field
             templateModeOnly="true"
@@ -4071,8 +4073,36 @@
           </action>
         </section>
 
-        <section name="referenceSystems">
-          <section name="spatialReferenceSystem" displayIfRecord="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])>0
+         <section name="referenceSystems">
+          <field
+                xpath="gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gmx:Anchor"
+                del="."/>
+              <!-- The useXmlSnippet="true" attribute is a workaround to keep backward compatibility since often
+              the data-gn-crs-selector directive is used specifying a snippet as below although the developer wanted
+              to use the hardcoded snipped in EditorXMLService.js. We need a way to specify if we really want
+              to use the snippet below. The attribute is used in the template render-element-template-field located in form-builder.xsl-->
+              <action type="add" name="rsIdentifier" addDirective="data-gn-crs-selector"
+                      useXmlSnippet="true"
+                      or="referenceSystemInfo" in="/gmd:MD_Metadata">
+                <template>
+                  <snippet>
+                    <gmd:referenceSystemInfo>
+                      <gmd:MD_ReferenceSystem>
+                        <gmd:referenceSystemIdentifier>
+                          <gmd:RS_Identifier>
+                            <gmd:code>
+                              <gmx:Anchor xlink:href='http://www.opengis.net/def/crs/EPSG/0/{{code}}'
+                                          xlink:title='{{description}}'>{{code}}
+                              </gmx:Anchor>
+                            </gmd:code>
+                          </gmd:RS_Identifier>
+                        </gmd:referenceSystemIdentifier>
+                      </gmd:MD_ReferenceSystem>
+                    </gmd:referenceSystemInfo>
+                  </snippet>
+                </template>
+              </action>
+        <!--  <section name="spatialReferenceSystem" displayIfRecord="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])>0
           or count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code[contains(.,'RDN') or starts-with(.,'ED50')
           or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])>0">
 
@@ -4547,8 +4577,8 @@
                 </gmd:referenceSystemInfo>
               </snippet>
             </template>
-          </action>
-        </section>
+          </action> -->
+        </section> 
       </tab>
 
       <tab id="raster" mode="flat" displayIfRecord="count(gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription)>0">
