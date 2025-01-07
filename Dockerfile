@@ -9,7 +9,7 @@ RUN mvn install -DskipTests
 #
 # Package stage
 #
-FROM tomcat:8.5-jdk11
+FROM tomcat:8.5-jdk11-temurin-focal
 
 ENV GN_FILE geonetwork.war
 ENV DATA_DIR=$CATALINA_HOME/webapps/geonetwork/WEB-INF/data
