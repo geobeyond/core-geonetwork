@@ -478,7 +478,9 @@
                 </gml:BaseUnit>
               </gmd:valueUnit>
               <gmd:value>
-                <gco:Record xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:double" />
+                <gco:Record>
+                  <gco:Real>10</gco:Real>
+                </gco:Record>
               </gmd:value>
             </gmd:DQ_QuantitativeResult>
           </gmd:result>
