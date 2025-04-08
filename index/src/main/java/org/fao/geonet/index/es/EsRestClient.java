@@ -57,6 +57,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.nio.conn.SchemeIOSessionStrategy;
 import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.fao.geonet.utils.Log;
@@ -132,12 +133,15 @@ public class EsRestClient implements InitializingBean {
             RestClientBuilder builder = RestClient.builder(new HttpHost(serverHost, Integer.parseInt(serverPort), serverProtocol));
 
             if (serverUrl.startsWith("https://")) {
-                SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(
-                    null, new TrustStrategy() {
-                        public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                            return true;
-                        }
-                    }).build();
+                // SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(
+                //     null, new TrustStrategy() {
+                //         public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                //             return true;
+                //         }
+                //     }).build();
+                SSLContextBuilder sslBuilder = SSLContexts.custom()
+                .loadTrustMaterial(null, (x509Certificates, s) -> true);
+                final SSLContext sslContext = sslBuilder.build();
                 // skip hostname checks
                 HostnameVerifier hostnameVerifier = NoopHostnameVerifier.INSTANCE;
                 SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext, hostnameVerifier);
