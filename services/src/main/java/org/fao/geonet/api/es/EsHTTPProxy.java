@@ -46,6 +46,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.Constants;
@@ -76,6 +77,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -83,6 +88,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -547,7 +553,21 @@ public class EsHTTPProxy {
 
             // open communication between proxy and final host
             // all actions before the connection can be taken now
-            HttpURLConnection connectionWithFinalHost = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection connectionWithFinalHost = (HttpsURLConnection) url.openConnection();
+
+            // Use a local TrustManager that trusts all certs
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() { return null; }
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) { }
+                }
+            };
+
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            connectionWithFinalHost.setSSLSocketFactory(sc.getSocketFactory());
+
             try {
                 connectionWithFinalHost.setRequestMethod(request.getMethod());
 
