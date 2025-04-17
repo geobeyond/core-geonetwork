@@ -1,6 +1,6 @@
 # Importing users from Geostore
 
-Users and groups are imported from Geostore using the trigger function [migrate_user_groups_from_gn](./trigger.sql).
+Users and groups are imported from Geostore using the trigger function [migrate_user_groups_from_gn](./triggers.sql).
 
 The table schema_geostore.gs_usergroup_members contains two triggers:
 
