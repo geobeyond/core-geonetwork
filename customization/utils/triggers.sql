@@ -1,8 +1,5 @@
-```
-
 -- DROP FUNCTION schema_geonetwork.migrate_user_groups_from_gn();
-
-  
+ 
 
 CREATE OR REPLACE FUNCTION schema_geonetwork.migrate_user_groups_from_gn()
 
@@ -205,5 +202,4 @@ END;
 $function$
 
 ;
-```
 
