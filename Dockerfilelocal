@@ -25,10 +25,10 @@ RUN mkdir -p geonetwork && \
      rm $GN_FILE
 
 # To enable AJP and support for traefik headers
-COPY ./georoma/server.xml $CATALINA_HOME/conf/server.xml
+COPY ./customization/server.xml $CATALINA_HOME/conf/server.xml
 
 #Set geonetwork data dir
-COPY ./georoma/docker-entrypoint.sh /entrypoint.sh
+COPY ./customization/docker-entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
